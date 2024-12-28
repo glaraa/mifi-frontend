@@ -1,0 +1,11 @@
+.alert-success {
+    background-color: #dbf6d3;
+    border-color: #aed4a5;
+    color: #569745;
+}
+.alert-success hr {
+    border-top-color: #c9e2b3;
+}
+.alert-success .alert-link {
+    color: #2b542c;
+}

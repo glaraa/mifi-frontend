@@ -1,0 +1,96 @@
+.alert {
+    position: relative;
+    max-width: 265px; 
+    margin: 10px auto; 
+    padding: 15px 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    font-family: Arial, sans-serif;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+  }
+  
+  .alert-white {
+    background-color: #f9f9f9;
+    border-color: #ddd;
+    color: #444;
+  }
+  
+.alert .icon {
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  
+  .alert .icon i {
+    font-size: 18px;
+    line-height: 1;
+  }
+  
+  .alert .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #aaa;
+    text-shadow: none;
+    opacity: 0.8;
+    cursor: pointer; 
+    background: none; 
+    border: none;
+    font-size: 16px;
+  }
+  
+  .alert .close:hover,
+  .alert .close:focus {
+    color: #000;
+    opacity: 1;
+  }
+
+  .alert-white .icon:after {
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    display: block;
+    content: '';
+    width: 10px;
+    height: 10px;
+    border: 1px solid #bdbdbd;
+    position: absolute;
+    border-left: 0;
+    border-bottom: 0;
+    top: 50%;
+    right: -6px;
+    margin-top: -5px;
+    background: #fff;
+}
+
+.alert .icon {
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.alert .icon i {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.alert .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #aaa;
+  text-shadow: none;
+  opacity: 0.8;
+  cursor: pointer; /* Add pointer cursor */
+  background: none; /* Remove any default button styles */
+  border: none;
+  font-size: 16px;
+}
+
+.alert .close:hover,
+.alert .close:focus {
+  color: #000;
+  opacity: 1;
+}
