@@ -31,8 +31,9 @@ function Login() {
           });
           const data = await response.json();        
           if (response.ok) {
-            console.log("Size of data:", JSON.stringify(data).length);
-            localStorage.setItem("userData", JSON.stringify(data));
+            const response =data.response;
+            console.log("response:", response);
+            localStorage.setItem("userData", JSON.stringify(response));
             navigate('/userprofile');
           } else {
             console.log("Login failed:", data);

@@ -1,64 +1,44 @@
 import React, { useState } from "react";
+import { profilePictureUpload } from "../api/UserProfileAPIs";
 
-const ProfilePicUpload = ({ onImageUpload }) => {
-  const [preview, setPreview] = useState(null);
-  const [error, setError] = useState("");
+const ProfilePicUpload = ({ onImageUpload, userData ,setUserData }) => {
+  const [image, setImage] = useState(null);
+  const [isImageUploaded, setIsImageUploaded] = useState(false);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    if (file && file.type.startsWith("image/")) {
-      setPreview(URL.createObjectURL(file));
-      setError("");
-    } else {
-      setPreview(null);
-      setError("Please select a valid image file.");
+    if (file) {
+      setImage(URL.createObjectURL(file));
     }
+    setIsImageUploaded(true);
   };
 
-  const handleUpload = async () => {
-    const fileInput = document.getElementById("file");
-    const file = fileInput.files[0];
-
-    if (!file) {
-      setError("No file selected.");
-      return;
-    }
-
-    try {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (image) {
       const formData = new FormData();
-      formData.append("picture", file);
-
-      const response = await fetch("/api/user/addpropic", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        onImageUpload(data); // Pass updated user data to parent
-        alert("Profile picture updated successfully!");
-      } else {
-        const errorData = await response.json();
-        setError(errorData.message || "Failed to upload profile picture.");
+      const file = event.target.querySelector('input[type="file"]').files[0];
+      if (file) {
+        formData.append("picture", file);
       }
-    } catch (err) {
-      console.error("Error uploading profile picture:", err);
-      setError("An error occurred. Please try again.");
+      await profilePictureUpload(userData,formData,setUserData,onImageUpload);
     }
   };
 
   return (
-    <div>
-      <label htmlFor="file" className="btn btn-outline-primary">  Upload Image </label>
-      <input type="file" accept="image/*" id="file" onChange={handleFileChange} style={{ display: "none" }} />
-      {preview && (
-        <div className="mt-3">
-          <img src={preview}  alt="Preview" className="img-thumbnail" style={{ width: "200px" }} />
-        </div>
-      )}
-      {error && <p className="text-danger mt-2">{error}</p>}
-      <button type="button" className="btn btn-success mt-3" onClick={handleUpload} > Save </button>
-    </div>
+    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", alignItems: "center",
+        justifyContent: "space-between", height: "150px", textAlign: "center", borderRadius: "10px",
+        padding: "20px", backgroundColor: "#fff", position: "relative"}} >
+      {!isImageUploaded && ( <label htmlFor="file-upload" style={{ cursor: "pointer" }}>
+          <img src="/assets/images/uploadIcon.png" alt="Upload Icon" width="150" height="120" />
+        </label>)}
+      <input type="file" accept="image/*" onChange={handleFileChange} id="file-upload" style={{ display: "none" }}/>
+      {image && ( <img src={image} alt="Preview" style={{ marginTop: "10px", width: "200px", 
+      display: "block"}} />)}
+      <button type="submit" className="btn btn-success rounded-pill mt-4" style={{ alignSelf: "center", marginTop: "auto"}}>
+        Save
+      </button>
+    </form>
   );
 };
 

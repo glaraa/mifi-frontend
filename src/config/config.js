@@ -3,6 +3,9 @@ const config = {
     API_HEADERS: {
       "Content-Type": "application/json",
       "RequestBy": "MIFI_FRONTEND"
+    },
+    API_HEADERS_MULTIPART: {
+      "RequestBy": "MIFI_FRONTEND"
     }
   };
   

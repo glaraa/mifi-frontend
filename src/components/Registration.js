@@ -39,7 +39,7 @@ const Registration = () => {
           lastName: "",
           email: "",
           gender: "",
-          category: "",
+          category: "Painting",
           password: "",
           confirmPassword: "",
         });
@@ -101,7 +101,7 @@ const Registration = () => {
         const fetchData = async () => {
           try {
             console.log("Headers",config.API_HEADERS)
-            const response = await fetch(
+            const response = await fetch( 
               `${config.API_BASE_URL}/api/users/unique/${debouncedQuery}`, {
                 method: "GET", headers: config.API_HEADERS,
               }
