@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import config from '../config/config';
-import RecentPhotos from './RecentPhotos';
+import {uploadCreation} from "../api/Creation";
 
 const UserCreationsModal = ({ isOpen, onClose, onSubmit,userData }) => {
   const [image, setImage] = useState(null);
@@ -25,24 +24,15 @@ const UserCreationsModal = ({ isOpen, onClose, onSubmit,userData }) => {
     formData.append("userId", userData.userId);
     console.log("id",userData.userId);
     try {
-      setLoading(true);
-      const response = await fetch(`${config.API_BASE_URL}/api/users/creations`, {
-        method: "POST",
-        body: formData,
-        headers: config.API_HEADERS_MULTIPART
-      });
-      if (!response.ok) {
-        throw new Error("Failed to upload the creation");
+        setLoading(true);
+        await uploadCreation(formData);
+        onSubmit();
+        onClose();
+      } catch (error) {
+        setError(error.message || "Something went wrong. Please try again.");
+      } finally {
+        setLoading(false);
       }
-      const data = await response.json();
-      onSubmit(); 
-      onClose();
-    } catch (error) {
-      console.error(error);
-      setError("Something went wrong. Please try again.");
-    } finally {
-      setLoading(false);
-    }
   };
 
   return (
@@ -69,7 +59,7 @@ const UserCreationsModal = ({ isOpen, onClose, onSubmit,userData }) => {
                 onChange={(e) => setCaption(e.target.value)} placeholder="About your Creation" />
             </div>
             <div className="modal-footer">
-            <button type="submit" className="btn btn-success rounded-pill" disabled={loading}>
+            <button type="submit" className="btn btn-success rounded-pill" disabled={loading} style={{width: "5.5rem",fontSize:"0.9rem"}}>
                 {loading ? "Uploading..." : "Post"}
               </button>
             </div>

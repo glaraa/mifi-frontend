@@ -24,7 +24,7 @@ const UserAboutModal = ({ isOpen, onClose, currentDescription, onSave }) => {
                 placeholder="Your Likes/Your Location/Other Info About you that You'd Like to Share" />
             </div>
             <div className="modal-footer">
-              <button type="submit" className="btn btn-success rounded-pill"> OK </button>
+              <button type="submit"  style={{width:"5.5rem"}} className="btn btn-success rounded-pill"> OK </button>
             </div>
           </form>
         </div>

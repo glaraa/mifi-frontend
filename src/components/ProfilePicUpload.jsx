@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { profilePictureUpload } from "../api/UserProfileAPIs";
+import { profilePictureUpload } from "../api/UserProfile";
 
 const ProfilePicUpload = ({ onImageUpload, userData ,setUserData }) => {
   const [image, setImage] = useState(null);
@@ -33,7 +33,7 @@ const ProfilePicUpload = ({ onImageUpload, userData ,setUserData }) => {
           <img src="/assets/images/uploadIcon.png" alt="Upload Icon" width="150" height="120" />
         </label>)}
       <input type="file" accept="image/*" onChange={handleFileChange} id="file-upload" style={{ display: "none" }}/>
-      {image && ( <img src={image} alt="Preview" style={{ marginTop: "10px", width: "200px", 
+      {image && ( <img src={image} alt="Preview" style={{ marginTop: "10px", width: "200px", height: "150px",
       display: "block"}} />)}
       <button type="submit" className="btn btn-success rounded-pill mt-4" style={{ alignSelf: "center", marginTop: "auto"}}>
         Save
