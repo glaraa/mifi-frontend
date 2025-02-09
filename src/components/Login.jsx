@@ -2,9 +2,9 @@ import React from "react";
 import "../assets/css/Login.css"; 
 import { useEffect } from "react";
 import { useState } from "react";
-import config from "../config/config"; 
 import { useNavigate } from 'react-router-dom';
 import ErrorPopup from "./ErrorPopup";
+import {loginUser} from "../api/api";
 
 function Login() {
     useEffect(() => {
@@ -23,25 +23,7 @@ function Login() {
         const loginData = {
           username: username,password: password,
         };
-        try {
-          const response = await fetch(`${config.API_BASE_URL}/api/login`, {
-            method: "POST",
-            headers: config.API_HEADERS,
-            body: JSON.stringify(loginData),
-          });
-          const data = await response.json();        
-          if (response.ok) {
-            console.log("Size of data:", JSON.stringify(data).length);
-            localStorage.setItem("userData", JSON.stringify(data));
-            navigate('/userprofile');
-          } else {
-            console.log("Login failed:", data);
-            setErrorMessage(data.message || 'Invalid username & Password');
-          }
-        } catch (error) {
-          console.error("Error:", error);
-          setErrorMessage('Something went wrong');
-        }
+        await loginUser(loginData,navigate,setErrorMessage);
       };
       
   return (
@@ -65,7 +47,7 @@ function Login() {
           <button type="submit" className="btn mt-3">Login</button>
         </form>
         <div className="text-center fs-6">
-          or <a href="/register">Sign up</a>
+          <a href="/forgot-password"> Forgot password? </a> or <a href="/register">Sign up</a>
         </div>
         {errorMessage && <ErrorPopup errorMessage={errorMessage} />}
       </div>

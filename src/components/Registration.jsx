@@ -6,6 +6,7 @@ import config from "../config/config";
 import SuccessPopup from "./SuccessPopup";
 import ErrorPopup from "./ErrorPopup";
 import { useNavigate } from 'react-router-dom';
+import {checkUsernameAvailability, registerUser} from "../api/Users";
 
 const Registration = () => {
     useEffect(() => {  
@@ -39,7 +40,7 @@ const Registration = () => {
           lastName: "",
           email: "",
           gender: "",
-          category: "",
+          category: "Painting",
           password: "",
           confirmPassword: "",
         });
@@ -73,56 +74,28 @@ const Registration = () => {
         setErrorMessage("Passwords do not match!");
         return;
       }
-      const response = await fetch(`${config.API_BASE_URL}/api/users/`, {
-        method: "POST",
-        headers: config.API_HEADERS,
-        body: JSON.stringify(formData),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        setSuccessMessage('Sign Up Successful');
-        navigate('/');
-        setErrorMessage('');
-      } else {
-        setErrorMessage(result.message || 'Sign Up Failed');
-      }
+      const result = await registerUser(formData);
+      setSuccessMessage("Sign Up Successful");
+      navigate("/");
+      setErrorMessage("");
     } catch (error) {
-      console.error("Error during Sign Up:", error);
-      setErrorMessage("Something went wrong. Please try again.");
+      setErrorMessage(error);
     }
   };
 
-    const debouncedQuery = useDebounce(query, 500); 
+    const debouncedQuery = useDebounce(query, 500);
 
-    useEffect(() => {
-      if (debouncedQuery.length >= 3) {
-        const fetchData = async () => {
-          try {
-            console.log("Headers",config.API_HEADERS)
-            const response = await fetch(
-              `${config.API_BASE_URL}/api/users/unique/${debouncedQuery}`, {
-                method: "GET", headers: config.API_HEADERS,
-              }
-            );
-            const data = await response.json();
-            if (data && typeof data.response === "boolean") {
-              setIsAvailable(data.response);
-            } else {
-              setIsAvailable(null);
-            }
-          } catch (error) {
-            console.error("Error during API call:", error,config.headers);
-            setIsAvailable(null);
-          }
-        };
-        fetchData();
-          } else {
-            setIsAvailable(null); 
-          }
-        }, [debouncedQuery]);
-           
+  useEffect(() => {
+    if (debouncedQuery?.length >= 3) {
+      const fetchAvailability = async () => {
+        const isAvailable = await checkUsernameAvailability(debouncedQuery);
+        setIsAvailable(isAvailable);
+      };
+
+      fetchAvailability();
+    }
+  }, [debouncedQuery]);
+
   return (
     <div className="wrapper-register">
     <h2 align="center">Sign Up!</h2>
